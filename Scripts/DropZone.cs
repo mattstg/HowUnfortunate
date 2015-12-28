@@ -5,7 +5,7 @@ public class DropZone : MonoBehaviour {
 
     const float BOX_SIZE_SMALLEST = 150f;
     const float BOX_SIZE_LARGEST  = 300f;
-    const float BOX_CREATE_TIME = 1f;
+    const float BOX_CREATE_TIME = 1.4f;
     public GameObject boxPrefab;
 	// Update is called once per frame
     float timer = 0;

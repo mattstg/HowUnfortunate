@@ -26,7 +26,7 @@ public class Main : MonoBehaviour {
         Debug.Log(player.isDragging);
         if (player.isDragging)
         {
-            player.Launch(mousePosition);
+            player.LaunchCheck(mousePosition);
             player.isDragging = false;
         }
     }

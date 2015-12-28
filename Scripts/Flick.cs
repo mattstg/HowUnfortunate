@@ -7,8 +7,11 @@ public class Flick : MonoBehaviour {
     float timeMouseHeldDown = 0;
     public GameObject gameObject;
     const float nanobots = 1f;
+    public float maxForceMagnitude = 50;
     bool canLaunch = false;
     float numberOfColis = 0;
+    float remainingAirJumps = 0;
+    float maxAirJumps = 1;
 	// Use this for initialization
 	void Start () {
         
@@ -30,25 +33,39 @@ public class Flick : MonoBehaviour {
         isDragging = true;
     }
 
-    public void Launch(Vector2 launchPos)
+    public void LaunchCheck(Vector2 launchPos)
     {
         if (numberOfColis > 0)
         {
-            if (timeMouseHeldDown != 0)
-                gameObject.GetComponent<Rigidbody2D>().AddForce(nanobots * ((launchPos - new Vector2(0, 0)) / timeMouseHeldDown), ForceMode2D.Impulse);
-        }
-        else
-        {
-            timeMouseHeldDown = 0;
-            isDragging = false;
+            Launch(launchPos);
+        } else if (remainingAirJumps > 0) {
+            --remainingAirJumps;
+            Launch(launchPos);
         }
         
+        timeMouseHeldDown = 0;
+        isDragging = false;
+        
+    }
+
+    void Launch(Vector2 launchPos)
+    {
+        if (timeMouseHeldDown != 0)
+        {
+            Vector2 launchVelo = nanobots * ((launchPos - new Vector2(0, 0)) / timeMouseHeldDown);
+            if (Mathf.Abs(launchVelo.magnitude) > maxForceMagnitude)
+                launchVelo = launchVelo.normalized * maxForceMagnitude;
+            gameObject.GetComponent<Rigidbody2D>().AddForce(launchVelo, ForceMode2D.Impulse);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D coli)
     {
         if (coli.gameObject.CompareTag("Box"))
+        {
+            remainingAirJumps = maxAirJumps;
             numberOfColis++;
+        }
             
     }
 
