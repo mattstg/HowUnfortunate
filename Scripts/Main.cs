@@ -11,10 +11,7 @@ public class Main : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetMouseButton(0)) 
-        {
-            Debug.Log("Mouse Position: " + (Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position));
             mousePosition = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position);
-        }
         if (Input.GetMouseButtonUp(0))
             RaiseMouse();
         
@@ -22,8 +19,6 @@ public class Main : MonoBehaviour {
 
     void RaiseMouse()
     {
-        Debug.Log("THIS");
-        Debug.Log(player.isDragging);
         if (player.isDragging)
         {
             player.LaunchCheck(mousePosition);

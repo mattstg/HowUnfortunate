@@ -3,11 +3,13 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Flick : MonoBehaviour {
 
+    public string activePowerUp = "";
     public bool isDragging = false;
     float timeMouseHeldDown = 0;
     public GameObject gameObject;
     const float nanobots = 1f;
-    public float maxForceMagnitude = 50;
+    public float bonusFlickForce = 0;
+    public float maxForceMagnitude { get { return GV.MAX_FLICK_FORCE + bonusFlickForce; } }
     bool canLaunch = false;
     float numberOfColis = 0;
     float remainingAirJumps = 0;
@@ -73,6 +75,11 @@ public class Flick : MonoBehaviour {
     {
         if (coli.gameObject.CompareTag("Box"))
             numberOfColis--;
+    }
+
+    public void RecievePowerUp(string powerUpName)
+    {
+        activePowerUp = powerUpName;
     }
 
 
